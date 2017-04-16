@@ -1,23 +1,11 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>index</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='col-sm-8 col-sm-offset-2'>
         <h1>Form</h1>
-        <form method="POST" action=''>{% csrf_token %}
+        <form method="POST" action='' enctype='multipart/form-data'>{% csrf_token %}
        {{ form.as_p }}
-       <input type="submit" name="" value="Create Post">
+       <input class='btn btn-default' type="submit" name="" value="Create Post">
        </form>
-    </body>
-</html>
+       </div>
+       {% endblock content %}
