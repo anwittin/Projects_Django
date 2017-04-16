@@ -7,7 +7,7 @@ class Post(models.Model):
     content = models.TextField()
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-    slug = models.CharField()
+    slug = models.CharField(max_length=30)
 
     def __str__(self):
         return self.title
