@@ -1,15 +1,43 @@
 {% extends 'base.html' %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
 
-{% block head_title %}{{ instance.title }}| {{ block.super }}Projects Web App{% endblock head_title %}
 {% block content %}
 <div class='col-sm-8 col-sm-offset-2'>
     {% if instance.image %}
     <img src="{{ instance.image.url }}" class="img-responsive"/>
     {% endif %}
-        <h1>{{ title }} <small>{{ instance.timestamp }}</small></h1>
-       
+    <h1>{{ title }} <small>{% if instance.draft %} <span style='color:red;'>Draft </span>{% endif %}{{ instance.publish }}</small></h1>
+    {% if instance.user.get_full_name %}
+    <p>Author: {{ instance.user.get_full_name }}</p>
+    {% endif %}
 
-       {{ instance.content|linebreaks }}
-      
+    <div class="row">
+    <div class="col-sm-12 ">
+    <div class='post-detail-item'>{{ instance.get_markdown }}</div>
+    <hr/>
+    <br/>
+    <div>
+        <p class='lead'>Comments</p>
+        <form method="POST" action="."> {% csrf_token %}
+            {{ comment_form|crispy }}
+            <input type="submit" value="Post comment" class 'btn btn-default'>
+        </form>
+        <hr/>
+        {% for comment in comments %}
+            
+            <blockquote>
+                <p>{{comment.content}}</p>
+                <footer>By: {{ comment.user }} | {{ comment.timestamp|timesince }} ago</footer>
+            </blockquote>
+            <hr/>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+</div>
 </div>
     {% endblock %}

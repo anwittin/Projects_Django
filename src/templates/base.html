@@ -1,15 +1,13 @@
 {% load staticfiles %}
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-
+<!--DOCTYPE html -->
+<html>
+<head>
         <!-- Latest compiled and minified CSS -->
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,11 +15,9 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static '/css/base.css' %}"/>
+        {% block head_extra %} {% endblock head_extra %}
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
         {% include "messages_display.html" %}
         <div class="container">
             {% block content %}
@@ -29,7 +25,52 @@
             {% endblock %}
         </div>
 <!-- Latest compiled and minified JavaScript -->
+<script src="http://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>    
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".content-markdown").each(function(){
+                var content = $(this).text()
+                var markedContent = marked(content)
+                $(this).html(markedContent)
+        })
+        $(".post-detail-item img").each(function(){
+                $(this).addClass("img-responsive");
+        })
+        }) 
+
+        var titleInput = $("#id_title");
+       
+        function setTitle(value) {
+             $("#preview-title").text(value)
+        }
+        setTitle(titleInput.val())
+
+        titleInput.keyup(function(){
+            var newContent = $(this).val()
+                setTitle(newContent)
+        })
+
+        var contentItem = $("#id_content");
+        
+
+        function setContent(value){
+            var markedContent = marked(value)
+            $("#preview-content").html(markedContent)
+            $("#preview-content img").each(function(){
+                $(this).addClass("img-responsive")
+            })
+        }
+        setContent(contentItem.val())
+
+        contentItem.keyup(function(){
+            var newContent = $(this).val()
+                setContent(newContent)
+        })
+        //preview-title
+        //preview-content
+        </script>
     </body>
 
 
