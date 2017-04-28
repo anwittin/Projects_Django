@@ -11,6 +11,7 @@
     <img src="{{ instance.image.url }}" class="img-responsive"/>
     {% endif %}
     <h1>{{ title }} <small>{% if instance.draft %} <span style='color:red;'>Draft </span>{% endif %}{{ instance.publish }}</small></h1>
+    <p>Read time: {% if instance.read_time <= 1 %} < 1 Minute {% else %}{{ instance.read_time }} minutes {% endif %}</p>
     {% if instance.user.get_full_name %}
     <p>Author: {{ instance.user.get_full_name }}</p>
     {% endif %}
@@ -31,7 +32,22 @@
             
             <blockquote>
                 <p>{{comment.content}}</p>
-                <footer>By: {{ comment.user }} | {{ comment.timestamp|timesince }} ago</footer>
+                <footer>By: {{ comment.user }} | {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1 %}s | {% endif %}{% endif %} <a class="comment-reply-btn" href="#">Reply</a></footer>
+                <div class="comment-reply">
+                {% for child_comment in comment.children %}
+                <blockquote>
+                <p>{{ child_comment.content }}</p>
+                <footer>By: {{ child_comment.user }} | {{ child_comment.timestamp|timesince }} ago</footer>
+                </blockquote>
+                {% endfor %}
+
+                <form method="POST" action="."> {% csrf_token %}
+                {{ comment_form|crispy }}
+                <input type='hidden' name="parent_id" value="{{ comment.id }}">
+                <input type="submit" value="Reply" class 'btn btn-default'>
+                </form>
+            
+                </div>
             </blockquote>
             <hr/>
             {% endfor %}

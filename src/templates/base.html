@@ -68,8 +68,11 @@
             var newContent = $(this).val()
                 setContent(newContent)
         })
-        //preview-title
-        //preview-content
+
+        $(".comment-reply-btn").click(function(event){
+            event.preventDefault();
+            $(this).parent().next(".comment-reply").fadeToggle();
+        })
         </script>
     </body>
 

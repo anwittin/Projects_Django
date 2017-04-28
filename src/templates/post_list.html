@@ -24,7 +24,7 @@
       {% endif %}
       <div class="caption post-detail-item">
           {% if obj.draft %}<h3>Draft</h3>{% endif %} {% if obj.publish > today %}<h3>Future Post</h3>{% endif %}
-        <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> <small>{% if obj.draft %} <span style='color:red;'>Draft </span>{% endif %}{{ obj.publish }}</small></h3>
+        <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> <small>{% if obj.draft %} <span style='color:red;'>Draft </span>{% endif %}{{ obj.publish }}</small></h3><p>Read time: {% if obj.read_time <= 1 %} < 1 Minute {% else %}{{ obj.read_time }} minutes {% endif %}</p>
         {% if obj.user.get_full_name %}
         <h4>Author: {{ obj.user.get_full_name }}</h4>
         {% endif %}
